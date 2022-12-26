@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\ToDoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,14 @@ Route::get('registration', [CustomAuthController::class, 'registration'])->name(
 Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
+// To Do List CRUD Routes
+Route::get('todos',  [ToDoController::class, 'index'])->name('todo.index');
+Route::get('todos/create', [ToDoController::class, 'create'])->name('todo.create');
+Route::post('todos/store', [ToDoController::class, 'store'])->name('todo.store');
+Route::get('todos/{id}/show', [ToDoController::class, 'show'])->name('todo.show');
+Route::get('todos/{id}/edit', [ToDoController::class, 'edit'])->name('todo.edit');
+Route::put('todos/{id}/update', [ToDoController::class, 'update'])->name('todo.update');
+Route::delete('todos/{id}/delete', [ToDoController::class, 'destroy'])->name('todo.delete');
 
 
 
