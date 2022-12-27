@@ -5,18 +5,39 @@ namespace App\Http\Controllers;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Models\Todo;
+//use Yajra\DataTables\DataTables;
 
 class ToDoController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
 
     public function index()
     {
-        return "saved";
+//        if ($request->ajax()) {
+//            $data = Todo::select('*');
+//
+//            return Datatables::of($data)
+//                ->addIndexColumn()
+//                ->addColumn('action', function($row){
+//
+//                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+//
+//                    return $btn;
+//                })
+//                ->rawColumns(['action'])
+//                ->make(true);
+//        }
+//
+//        return view('todos.index');
+
+
+        $todos=Todo::paginate(20);
+
+        return view('todos.index',compact(['todos']));
     }
 
 

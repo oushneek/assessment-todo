@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ccbd816a07b206f971042295b899d1ba",
+    "content-hash": "b68f317f4e391b594a52906f2866a9a7",
     "packages": [
         {
             "name": "brick/math",
@@ -5351,7 +5351,7 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
-        }
+        },
     ],
     "packages-dev": [
         {
