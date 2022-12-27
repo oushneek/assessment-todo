@@ -18,6 +18,8 @@
             <div class="card">
                 <div class="card-header">
                     <a href="#" class="btn btn-sm btn-primary ">Add new Data from API</a>
+                    <a href="{{ route('todo.export') }}" class="btn btn-sm btn-success ">Export</a>
+
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

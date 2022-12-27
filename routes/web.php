@@ -31,5 +31,8 @@ Route::get('todos/{id}/edit', [ToDoController::class, 'edit'])->name('todo.edit'
 Route::put('todos/{id}/update', [ToDoController::class, 'update'])->name('todo.update');
 Route::delete('todos/{id}/delete', [ToDoController::class, 'destroy'])->name('todo.delete');
 
+Route::get('todos/export/', [ToDoController::class, 'export'])->name('todo.export');
+
+
 
 
