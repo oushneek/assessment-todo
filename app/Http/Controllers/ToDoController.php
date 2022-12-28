@@ -120,6 +120,8 @@ class ToDoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $todo=Todo::find($id);
+        $todo->delete();
+        return redirect()->route('todo.index')->withSuccess('Deleted Successfully.');
     }
 }

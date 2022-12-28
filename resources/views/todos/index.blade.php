@@ -45,9 +45,15 @@
                                     <a class="btn btn-warning btn-sm " href="{{ route('todo.edit', $todo->id) }}">
                                         Edit
                                     </a>
-                                    <a class="btn btn-danger btn-sm deleteBtn" href="#" data-delete-url="{{ route('todo.delete', $todo->id) }}" data-toggle="modal" data-target="#deleteConfirmModal">
-                                        Delete
-                                    </a>
+
+                                    <form method="POST" action="{{ route('todo.delete',$todo->id) }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+
+                                        <div class="form-group">
+                                            <input type="submit" class="btn btn-danger btn-sm delete-todo" value="Delete">
+                                        </div>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
@@ -63,32 +69,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="deleteConfirmModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Confirmation</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure to delete this ?</p>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-                    <form action="#" id="deleteForm" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-primary">YES</button>
-                    </form>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+
     <!-- /.content -->
 @endsection
 
@@ -109,11 +90,6 @@
 
 <script>
         $(document).ready(function () {
-            $('.deleteBtn').click(function (e) {
-                e.preventDefault();
-                var deleteUrl = $(this).data('delete-url');
-                $('#deleteForm').attr('action', deleteUrl);
-            })
 
             $('#example').DataTable({
                 "paging": true,
