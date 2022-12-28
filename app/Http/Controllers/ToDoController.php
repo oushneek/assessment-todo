@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TodoUpdateRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Models\Todo;
@@ -87,8 +88,10 @@ class ToDoController extends Controller
      */
     public function edit($id)
     {
-        
+        $todo=Todo::findOrFail($id);
+        $bools=[True=>'True',False=>'False'];
 
+        return view('todos.edit',compact(['todo','bools']));
     }
 
     /**
@@ -98,9 +101,15 @@ class ToDoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TodoUpdateRequest $request, $id)
     {
-        //
+        $data = $request->only([ 'user_id', 'title','completed']);
+        if($data['completed']=="True") $data['completed']=True;
+        else $data['completed']=False;
+        $todo=Todo::find($id);
+        $todo->update($data);
+        return redirect()->route('todo.index')->withSuccess('Updated Successfully.');
+
     }
 
     /**
