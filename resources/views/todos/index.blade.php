@@ -17,7 +17,6 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <a href="#" class="btn btn-sm btn-primary ">Add new Data from API</a>
                     <a href="{{ route('todo.export') }}" class="btn btn-sm btn-success ">Export</a>
 
                 </div>
@@ -43,6 +42,9 @@
                                 <td>{{ $todo->title }}</td>
                                 <td>{{ $todo->completed }}</td>
                                 <td>
+                                    <a class="btn btn-warning btn-sm " href="{{ route('todo.edit', $todo->id) }}">
+                                        Edit
+                                    </a>
                                     <a class="btn btn-danger btn-sm deleteBtn" href="#" data-delete-url="{{ route('todo.delete', $todo->id) }}" data-toggle="modal" data-target="#deleteConfirmModal">
                                         Delete
                                     </a>

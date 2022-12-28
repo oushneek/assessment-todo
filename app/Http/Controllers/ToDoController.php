@@ -48,7 +48,7 @@ class ToDoController extends Controller
             $data['title'] = $response->title;
             $data['completed'] = $response->completed;
 
-            Todo::create($data);
+            $check=Todo::create($data);
         }
 
         return redirect("/todos")->withSuccess('API data Successfully imported to Database.');
@@ -87,7 +87,8 @@ class ToDoController extends Controller
      */
     public function edit($id)
     {
-        //
+        
+
     }
 
     /**
