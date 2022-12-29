@@ -28,10 +28,10 @@ class CustomAuthController extends Controller
 
         if (Auth::attempt($data)) {
             return redirect()->intended('dashboard')
-                ->withSuccess('Signed in');
+                ->with('success','Signed in');
         }
-
-        return redirect("login")->withSuccess('Login details are not valid');
+        else
+            return redirect("login")->with('error','Login details are not valid');
     }
 
 
@@ -43,11 +43,16 @@ class CustomAuthController extends Controller
 
     public function customRegistration(RegRequest $request)
     {
-        $data = $request->only(['name', 'email', 'password']);
+        try{
+            $data = $request->only(['name', 'email', 'password']);
 
-        $check = $this->create($data);
+            $check = $this->create($data);
 
-        return redirect("dashboard")->withSuccess('have signed-in');
+            return redirect("dashboard")->with('success','Signed-In');
+        }catch(\Exception $e){
+            return redirect()->route("register-user")->with('warning','Could not Register.');
+        }
+
     }
 
 
@@ -66,8 +71,8 @@ class CustomAuthController extends Controller
         if (Auth::check()) {
             return view('auth.dashboard');
         }
-
-        return redirect("login")->withSuccess('are not allowed to access');
+        else
+            return redirect("login")->with('warning','You are not allowed to access');
     }
 
 
@@ -76,6 +81,6 @@ class CustomAuthController extends Controller
         Session::flush();
         Auth::logout();
 
-        return Redirect('login');
+        return Redirect('login')->with('success','Signed-Out Successfully.');
     }
 }

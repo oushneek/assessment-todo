@@ -39,22 +39,24 @@ class ToDoController extends Controller
     {
         // get json data from API
 
-        $client = new Client();
-        $api_response = $client->get('https://jsonplaceholder.typicode.com/todos')->getBody();
-        $responses = json_decode($api_response);
+        try{
+            $client = new Client();
+            $url='https://jsonplaceholder.typicode.com/todos';
+            $api_response = $client->get($url)->getBody();
+            $responses = json_decode($api_response);
+            foreach ($responses as $response){
+                $data['id'] = $response->id;
+                $data['user_id'] = $response->userId;
+                $data['title'] = $response->title;
+                $data['completed'] = $response->completed;
 
-        foreach ($responses as $response){
-            $data['id'] = $response->id;
-            $data['user_id'] = $response->userId;
-            $data['title'] = $response->title;
-            $data['completed'] = $response->completed;
+                $check=Todo::create($data);
+            }
+            return redirect("/todos")->with('success','API data Successfully imported to Database.');
 
-            $check=Todo::create($data);
+        }catch (\Exception $e){
+            return redirect("dashboard")->with('error','Could not save data from API');
         }
-
-        return redirect("/todos")->withSuccess('API data Successfully imported to Database.');
-
-
 
     }
 
@@ -103,13 +105,18 @@ class ToDoController extends Controller
      */
     public function update(TodoUpdateRequest $request, $id)
     {
-        $data = $request->only([ 'user_id', 'title','completed']);
-        if($data['completed']=="True") $data['completed']=True;
-        else $data['completed']=False;
-        $todo=Todo::find($id);
-        $todo->update($data);
-        return redirect()->route('todo.index')->withSuccess('Updated Successfully.');
-
+        try{
+            $data = $request->only([ 'user_id', 'title','completed']);
+            if($data['completed']=="True")
+                $data['completed']=True;
+            else
+                $data['completed']=False;
+            $todo=Todo::find($id);
+            $todo->update($data);
+            return redirect()->route('todo.index')->with('success','Updated Successfully.');
+        }catch (\Exception $e){
+            return redirect()->back()->withInput()->with('error','Could Not Update.');
+        }
     }
 
     /**
@@ -120,8 +127,12 @@ class ToDoController extends Controller
      */
     public function destroy($id)
     {
-        $todo=Todo::find($id);
-        $todo->delete();
-        return redirect()->route('todo.index')->withSuccess('Deleted Successfully.');
+        try{
+            $todo=Todo::find($id);
+            $todo->delete();
+            return redirect()->route('todo.index')->with('success', 'Deleted Successfully.');
+        }catch (\Exception $e){
+            return redirect()->route('todo.index')->with('error', 'Could Not Delete.');
+        }
     }
 }
